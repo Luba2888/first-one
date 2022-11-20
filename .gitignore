@@ -1,7 +1,10 @@
+# vscode
+/.vscode
+
 # Binaries for programs and plugins
-*.exe
-*.exe~
-*.dll
+!*.exe
+!*.exe~
+!*.dll
 *.so
 *.dylib
 
