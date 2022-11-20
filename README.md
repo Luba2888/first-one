@@ -10,6 +10,11 @@
 ### Сборка
     go build cmd/main.go
 
+### Пакеты
+    github.com/go-chi/chi/v5 - маршрутизатор для http
+    github.com/rs/zerolog - логирование
+    github.com/spf13/viper - файлы конфигурации
+
 ### Конфигурация
 Файл конфигурации [config.yaml](configs/config.yaml) в папке [config](configs)
 ```yaml
