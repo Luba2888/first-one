@@ -11,8 +11,8 @@ type City interface {
 	SetPopulation(id, population int) error
 	GetFromRegion(region string) ([]string, error)
 	GetFromDistrict(district string) ([]string, error)
-	GetFromPopulation(population string) ([]string, error)
-	GetFromFoundation(foundation string) ([]string, error)
+	GetFromPopulation(start, end int) ([]string, error)
+	GetFromFoundation(start, end int) ([]string, error)
 	GetFull(id int) (*cities.City, error)
 }
 

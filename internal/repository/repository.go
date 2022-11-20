@@ -8,8 +8,8 @@ type CityList interface {
 	SetPopulation(id, population int) error
 	GetFromRegion(region string) ([]string, error)
 	GetFromDistrict(district string) ([]string, error)
-	GetFromPopulation(population string) ([]string, error)
-	GetFromFoundation(foundation string) ([]string, error)
+	GetFromPopulation(start, end int) ([]string, error)
+	GetFromFoundation(start, end int) ([]string, error)
 	findCities(idx_type int, searchText string) []string
 	GetFull(id int) (*cities.City, error)
 }

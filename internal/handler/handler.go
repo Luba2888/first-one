@@ -23,8 +23,8 @@ func (h *Handler) InitRoutes() *chi.Mux {
 
 	router.Get("/region/{region}", h.getFromRegion)
 	router.Get("/district/{district}", h.getFromDistrict)
-	router.Get("/population/{population}", h.getFromPopulation)
-	router.Get("/foundation/{foundation}", h.getFromFoundation)
+	router.Get("/population/range", h.getFromPopulation)
+	router.Get("/foundation/range", h.getFromFoundation)
 
 	return router
 }

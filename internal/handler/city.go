@@ -111,7 +111,7 @@ func (h *Handler) setPopulation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var population cities.PopulationRequest
+	var population cities.SetPopulationRequest
 	err = json.Unmarshal(content, &population)
 	if err != nil {
 		newMessageResponse(w, http.StatusBadRequest, err.Error())
@@ -162,11 +162,22 @@ func (h *Handler) getFromDistrict(w http.ResponseWriter, r *http.Request) {
 // If successful, it writes a response in JSON format
 // containing a list of cities, status 200
 func (h *Handler) getFromPopulation(w http.ResponseWriter, r *http.Request) {
-	population := chi.URLParam(r, "population")
+	content, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		newMessageResponse(w, http.StatusInternalServerError, err.Error())
+		return
+	}
 
-	log.Info().Msg(fmt.Sprintf("GET: Сities by population %v", population))
+	log.Info().Msg(fmt.Sprintf("GET: Сities by population range %v", string(content)))
 
-	cityNames, err := h.services.GetFromPopulation(population)
+	var populationRange cities.RangeRequest
+	err = json.Unmarshal(content, &populationRange)
+	if err != nil {
+		newMessageResponse(w, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	cityNames, err := h.services.GetFromPopulation(populationRange.Start, populationRange.End)
 	if err != nil {
 		newMessageResponse(w, http.StatusInternalServerError, err.Error())
 		return
@@ -178,11 +189,22 @@ func (h *Handler) getFromPopulation(w http.ResponseWriter, r *http.Request) {
 // If successful, it writes a response in JSON format
 // containing a list of cities, status 200
 func (h *Handler) getFromFoundation(w http.ResponseWriter, r *http.Request) {
-	foundation := chi.URLParam(r, "foundation")
+	content, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		newMessageResponse(w, http.StatusInternalServerError, err.Error())
+		return
+	}
 
-	log.Info().Msg(fmt.Sprintf("GET: Сities by foundation %v", foundation))
+	log.Info().Msg(fmt.Sprintf("GET: Сities by foundation range %v", string(content)))
 
-	cityNames, err := h.services.GetFromFoundation(foundation)
+	var foundationRange cities.RangeRequest
+	err = json.Unmarshal(content, &foundationRange)
+	if err != nil {
+		newMessageResponse(w, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	cityNames, err := h.services.GetFromFoundation(foundationRange.Start, foundationRange.End)
 	if err != nil {
 		newMessageResponse(w, http.StatusInternalServerError, err.Error())
 		return

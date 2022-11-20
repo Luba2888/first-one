@@ -63,13 +63,13 @@ func (r *CityListDB) GetFromDistrict(district string) ([]string, error) {
 }
 
 // GetFromPopulation returns the list of cities by population
-func (r *CityListDB) GetFromPopulation(population string) ([]string, error) {
-	return r.findCities(populationIdx, population), nil
+func (r *CityListDB) GetFromPopulation(start, end int) ([]string, error) {
+	return r.findRangeCities(populationIdx, start, end)
 }
 
 // GetFromFoundation returns the list of cities by foundation
-func (r *CityListDB) GetFromFoundation(foundation string) ([]string, error) {
-	return r.findCities(foundationIdx, foundation), nil
+func (r *CityListDB) GetFromFoundation(start, end int) ([]string, error) {
+	return r.findRangeCities(foundationIdx, start, end)
 }
 
 // GetFull searches for a city by id.
@@ -117,4 +117,26 @@ func (r *CityListDB) findCities(idxType int, searchText string) []string {
 		}
 	}
 	return cityNames
+}
+
+// findRangeCities searches for cities in the range [start; end] based on idxType.
+// Returns a list of found cities
+func (r *CityListDB) findRangeCities(idxType int, start, end int) ([]string, error) {
+
+	if start > end {
+		start, end = end, start
+	}
+	cityNames := make([]string, 0)
+	for _, cityLine := range r.db.records {
+
+		year, err := strconv.Atoi(cityLine[idxType])
+		if err != nil {
+			return nil, err
+		}
+
+		if year >= start && year <= end {
+			cityNames = append(cityNames, cityLine[nameIdx])
+		}
+	}
+	return cityNames, nil
 }

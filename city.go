@@ -17,6 +17,11 @@ type CityRequest struct {
 	Foundation int    `json:"foundation"`
 }
 
-type PopulationRequest struct {
+type SetPopulationRequest struct {
 	Population int `json:"population"`
+}
+
+type RangeRequest struct {
+	Start int `json:"start"`
+	End   int `json:"end"`
 }

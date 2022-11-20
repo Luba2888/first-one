@@ -39,13 +39,13 @@ func (s *CityService) GetFromDistrict(distinct string) ([]string, error) {
 }
 
 // GetFromPopulation sends information to the repository and returns a response
-func (s *CityService) GetFromPopulation(population string) ([]string, error) {
-	return s.repo.GetFromPopulation(population)
+func (s *CityService) GetFromPopulation(start, end int) ([]string, error) {
+	return s.repo.GetFromPopulation(start, end)
 }
 
 // GetFromFoundation sends information to the repository and returns a response
-func (s *CityService) GetFromFoundation(foundation string) ([]string, error) {
-	return s.repo.GetFromFoundation(foundation)
+func (s *CityService) GetFromFoundation(start, end int) ([]string, error) {
+	return s.repo.GetFromFoundation(start, end)
 }
 
 // GetFull sends information to the repository and returns a response
