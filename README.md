@@ -1,7 +1,6 @@
 # Промежуточная аттестация модуля «Go-разработчик»
 
 ## Cities information service
-### Программа
 - [windows_amd64](/bin/windows_amd64/)
 - [linux_amd64](bin/linux_amd64/)
 - [mac_amd64](bin/mac_amd64/)
