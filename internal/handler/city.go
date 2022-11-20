@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"unicode"
 
 	"github.com/go-chi/chi/v5"
 	cities "github.com/kuzminprog/cities_information_service"
@@ -16,7 +17,6 @@ import (
 // If successful, in response writes in JSON format complete information about the city
 // status 200
 func (h *Handler) getFull(w http.ResponseWriter, r *http.Request) {
-
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
 		newMessageResponse(w, http.StatusBadRequest, err.Error())
@@ -132,6 +132,12 @@ func (h *Handler) setPopulation(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) getFromRegion(w http.ResponseWriter, r *http.Request) {
 	region := chi.URLParam(r, "region")
 
+	regionRune := []rune(region)
+	for i := range regionRune {
+		regionRune[i] = unicode.ToLower(regionRune[i])
+	}
+	region = string(unicode.ToUpper(regionRune[0])) + string(regionRune[1:])
+
 	log.Info().Msg(fmt.Sprintf("GET: Сities by region %v", region))
 
 	cityNames, err := h.services.GetFromRegion(region)
@@ -147,6 +153,12 @@ func (h *Handler) getFromRegion(w http.ResponseWriter, r *http.Request) {
 // containing a list of cities, status 200
 func (h *Handler) getFromDistrict(w http.ResponseWriter, r *http.Request) {
 	district := chi.URLParam(r, "district")
+
+	districtRune := []rune(district)
+	for i := range districtRune {
+		districtRune[i] = unicode.ToLower(districtRune[i])
+	}
+	district = string(unicode.ToUpper(districtRune[0])) + string(districtRune[1:])
 
 	log.Info().Msg(fmt.Sprintf("GET: Сities by district %v", district))
 

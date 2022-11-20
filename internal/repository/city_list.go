@@ -26,6 +26,7 @@ func (r *CityListDB) Create(city cities.CityRequest) (string, error) {
 		strconv.Itoa(city.Population),
 		strconv.Itoa(city.Foundation),
 	}
+
 	r.db.records[newID] = citySlice
 	return strconv.Itoa(newID), nil
 }
@@ -122,10 +123,10 @@ func (r *CityListDB) findCities(idxType int, searchText string) []string {
 // findRangeCities searches for cities in the range [start; end] based on idxType.
 // Returns a list of found cities
 func (r *CityListDB) findRangeCities(idxType int, start, end int) ([]string, error) {
-
 	if start > end {
 		start, end = end, start
 	}
+
 	cityNames := make([]string, 0)
 	for _, cityLine := range r.db.records {
 
