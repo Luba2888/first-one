@@ -61,6 +61,10 @@ func (h *Handler) create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	city.Name = toUpperFirst(city.Name)
+	city.Region = toUpperFirst(city.Region)
+	city.District = toUpperFirst(city.District)
+
 	id, err := h.services.City.Create(city)
 	if err != nil {
 		newMessageResponse(w, http.StatusInternalServerError, err.Error())
@@ -131,12 +135,7 @@ func (h *Handler) setPopulation(w http.ResponseWriter, r *http.Request) {
 // containing a list of cities, status 200
 func (h *Handler) getFromRegion(w http.ResponseWriter, r *http.Request) {
 	region := chi.URLParam(r, "region")
-
-	regionRune := []rune(region)
-	for i := range regionRune {
-		regionRune[i] = unicode.ToLower(regionRune[i])
-	}
-	region = string(unicode.ToUpper(regionRune[0])) + string(regionRune[1:])
+	region = toUpperFirst(region)
 
 	log.Info().Msg(fmt.Sprintf("GET: Сities by region %v", region))
 
@@ -153,12 +152,7 @@ func (h *Handler) getFromRegion(w http.ResponseWriter, r *http.Request) {
 // containing a list of cities, status 200
 func (h *Handler) getFromDistrict(w http.ResponseWriter, r *http.Request) {
 	district := chi.URLParam(r, "district")
-
-	districtRune := []rune(district)
-	for i := range districtRune {
-		districtRune[i] = unicode.ToLower(districtRune[i])
-	}
-	district = string(unicode.ToUpper(districtRune[0])) + string(districtRune[1:])
+	district = toUpperFirst(district)
 
 	log.Info().Msg(fmt.Sprintf("GET: Сities by district %v", district))
 
@@ -222,4 +216,14 @@ func (h *Handler) getFromFoundation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	newListResponse(w, http.StatusOK, cityNames)
+}
+
+// toUpperFirst changes the first letter to uppercase
+// returns the string
+func toUpperFirst(text string) string {
+	textRune := []rune(text)
+	for i := range textRune {
+		textRune[i] = unicode.ToLower(textRune[i])
+	}
+	return string(unicode.ToUpper(textRune[0])) + string(textRune[1:])
 }
